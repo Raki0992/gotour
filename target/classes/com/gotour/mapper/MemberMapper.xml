@@ -4,5 +4,29 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	<mapper namespace="com.gotour.mapper.MemberMapper">
 	
+	<select id="idCheck"  resultType="String">
+		SELECT MBSP_ID FROM mbsp_tbl WHERE MBSP_ID = #{mbsp_id}
+	</select>
 	
+	<insert id="join">
+		INSERT INTO mbsp_tbl(mbsp_id, MBSP_NAME, MBSP_EMAIL, MBSP_PASSWORD, MBSP_ZIPCODE, MBSP_ADDR, MBSP_DEADDR, MBSP_PHONE)
+			VALUES (#{mbsp_id},#{MBSP_NAME},#{MBSP_EMAIL},#{MBSP_PASSWORD},#{MBSP_ZIPCODE},#{MBSP_ADDR},#{MBSP_DEADDR},#{MBSP_PHONE})
+	</insert>
+	
+	<select id="login" parameterType="String" resultType="com.gotour.domain.MemberVO">
+		SELECT 
+			mbsp_id, 
+			MBSP_NAME, 
+			MBSP_EMAIL, 
+			MBSP_PASSWORD, 
+			MBSP_ZIPCODE, 
+			MBSP_ADDR, 
+			MBSP_DEADDR, 
+			MBSP_PHONE, 
+			MBSP_POINT,
+			MBSP_LASTLOGIN, 
+			MBSP_DATESUB, 
+			MBSP_UPDATEDATE 
+		from mbsp_tbl WHERE MBSP_ID = #{mbsp_id}
+	</select>
 	</mapper>
