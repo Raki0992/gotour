@@ -61,9 +61,15 @@ public class MemberController {
 		
 		memberService.join(vo);
 		return "redirect:/member/login";
-	}
+	} 
 	
-	@GetMapping("/login")
+	// 로그인 폼 페이지
+		@GetMapping("/login")
+		public void login() {
+			
+		}
+	
+	@PostMapping("/login") 
 	public String login(LoginDTO dto, RedirectAttributes rttr, HttpSession session) {
 		
 		log.info("로그인 : " + dto);
