@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -69,7 +70,6 @@ desired effect
           </div>
           
           
-          <form role="form" id="joinForm" method="post" action="/member/join">
       <div class="row">
 					<div class="col-md-12">
 						<div class="box box-primary">
@@ -79,13 +79,16 @@ desired effect
 							</div>
 
 							<!-- 절대경로 / board/register -->
-							<form role="form" method="post" action="상품등록매핑uri">
+							<form role="form" method="post" action="/admin/product/pro_insert" enctype="multipart/form-data">
 								<div class="box-body">
 									<div class="form-group row">
 										<label for="title" class="col-md-2 col-form-label">카테고리</label> 
                     <div class="col-md-3">
-                      <select class="form-control" id="exampleFormControlSelect1">
+                      <select class="form-control" id="firstCategory">
                         <option>1차 카테고리 선택</option>
+                        <c:forEach items="${firstCategoryList }" var="CategoryVO">
+                        	<option value="${CategoryVO.cg_code }">${CategoryVO.cg_name }</option>
+                        </c:forEach>
                       </select>
                     </div>
 
@@ -121,7 +124,7 @@ desired effect
                   <div class="form-group row">
 										<label for="title" class="col-md-2 col-form-label">상품이미지</label> 
                     <div class="col-md-4">
-                      <input type="file" class="form-control" id="" name=""	placeholder="작성자 입력...">
+                      <input type="file" class="form-control" id="uploadFile" name="uploadFile"	placeholder="작성자 입력...">
                     </div>
                     <label for="title" class="col-md-2 col-form-label">미리보기 이미지</label> 
                     <div class="col-md-4">
@@ -144,8 +147,8 @@ desired effect
                     <label for="title" class="col-md-2 col-form-label">판매여부</label> 
                     <div class="col-md-4">
                       <select class="form-control" id="pro_buy" name="pro_buy">
-                        <option>판매가능</option>
-                        <option>판매불가능</option>
+                        <option value="가능">판매가능</option>
+                        <option value="불가능">판매불가능</option>
                       </select>
                     </div>
                   </div>
@@ -165,7 +168,6 @@ desired effect
 					</div>
 						</div>
           
-          </form>
           </div>
       </div>
 
@@ -276,7 +278,47 @@ desired effect
     CKEDITOR.replace("pro_content",ckeditor_config);
 
     console.log("ckeditor 버전 :", CKEDITOR.version);
+
+    $("#firstCategoryList").change(function() {
+      let cg_parent_code = $(this).val();
+
+      console.log("1차 카테고리 코드", cg_parent_code);
+
+      let url = "/admin/category/secondCategory" + cg_parent_code + ".json";
+
+      $.getJSON(url, function() {
+
+        let secondCategory = $("#secondCategory");
+        let optionStr = "";
+
+        secondCategory.find("option").remove();
+        secondCategory.append("<option value = ''>2차 카테고리 선택</option>");
+
+        for(let i=0; i<secondCategoryList.length; i++) {
+          optionStr += "<option value = '" + secondCategoryList[i].cg_code + "'>" + secondCategoryList[i].cg_name + "</option>";
+        }
+
+        secondCategory.append(optionStr);
+      });
+
+    });
+
+    $("#uploadFile").change(function(e) {
+      let file = e.target.files[0];
+
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.onload = function(e) {
+        $("#img_preview").attr("src", e.target.result);
+      }
+    });
+
+
   });
+
+
+  
 </script>
 </body>
 </html>

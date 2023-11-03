@@ -2,6 +2,8 @@ package com.gotour.domain;
 
 import java.util.Date;
 
+import lombok.Data;
+@Data 
 public class ProductVO {
 	/*
 	 * CREATE TABLE PRODUCT_TBL(
