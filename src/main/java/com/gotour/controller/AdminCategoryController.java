@@ -19,10 +19,10 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/category")
+@RequestMapping("/admin/category/*")
 public class AdminCategoryController {
 
-	private AdminCategoryService adminCategoryService;
+	private final AdminCategoryService adminCategoryService;
 	
 	@ResponseBody
 	@GetMapping("/secondCategory/{cg_parent_code}")

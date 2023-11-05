@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import net.coobird.thumbnailator.Thumbnailator;
 
+// 파일업로드 관련 필요한 메소드를 구성
 public class FileUtils {
 	
 	// 날짜폴더 생성을 위한 날짜정보
@@ -111,3 +112,16 @@ public class FileUtils {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
