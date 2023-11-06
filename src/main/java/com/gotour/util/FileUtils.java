@@ -8,6 +8,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import net.coobird.thumbnailator.Thumbnailator;
@@ -101,6 +105,24 @@ public class FileUtils {
 		
 		return isImageType;
 	}	
+	
+	public static ResponseEntity<byte[]> getFile(String uploadPath, String fileName) throws Exception {
+		
+		ResponseEntity<byte[]> entity = null;
+		
+		File file = new File(uploadPath, fileName);
+		
+		if(!file.exists()) {
+			return entity;
+		}
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", Files.probeContentType(file.toPath()));
+		
+		entity = new ResponseEntity<byte[]>(FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);
+		
+		return entity;
+	}
 }
 
 

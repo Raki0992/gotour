@@ -10,11 +10,13 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -40,7 +42,7 @@ public class AdProductController {
 	private String uploadPath;
 	
 	// CKEditor에서 사용되는 업로드 폴더경로
-	@Resource(name = "uploadPath")
+	@Resource(name = "uploadCKPath")
 	private String uploadCKPath;
 	
 	@GetMapping("/pro_insert")
@@ -111,6 +113,8 @@ public class AdProductController {
 	@GetMapping("/pro_list")
 	public void pro_list(Criteria cri, Model model) throws Exception {
 		
+		cri.setAmount(2);
+		
 		List<ProductVO> pro_list = adProductService.pro_list(cri);
 		
 		pro_list.forEach(vo-> {
@@ -121,6 +125,12 @@ public class AdProductController {
 		
 		int totalCount = adProductService.getTotalCount(cri);
 		model.addAttribute("pageMaker", new PageDTO(cri, totalCount));
+	}
+	
+	@ResponseBody
+	@GetMapping("/imageDisplay")
+	public ResponseEntity<byte[]> imageDisplay(String dateFolderName, String fileName) throws Exception {
+		return FileUtils.getFile(uploadPath + dateFolderName, fileName);
 	}
 	
 	
