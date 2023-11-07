@@ -132,7 +132,7 @@
     <div class="form-group row">
       <label for="mbsp_phone" class="col-2">전화번호</label>
         <div class="col-10">
-      <input type="text" class="form-control" name = "mbsp_phone" id="mbsp_phone" placeholder="전화번호입력...">
+      <input type="text" class="form-control"  oninput="oninputPhone(this)" name = "mbsp_phone" id="mbsp_phone" placeholder="전화번호입력...">
         </div>
     </div>
     
@@ -240,6 +240,13 @@
         element_layer.style.left = (((window.innerWidth || document.documentElement.clientWidth) - width)/2 - borderWidth) + 'px';
         element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height)/2 - borderWidth) + 'px';
     }
+
+	 // 전화번호 - 이랑 자리수 14
+	    function oninputPhone(target) {
+	target.value = target.value
+	    .replace(/[^0-9]/g, '')
+	    .replace(/(^02.{0}|^01.{1}|[0-9]{3,4})([0-9]{3,4})([0-9]{4})/g, "$1-$2-$3");
+	}
 </script>
 
 <%@include file="/WEB-INF/views/comm/plugin.jsp" %>
@@ -345,21 +352,66 @@
 
         $("#btnJoin").click(function() {
 
-          // 회원가입 유효성검사
+        	 // 회원가입 유효성검사
 
-          if(!useIDCheck) {
-            alert("아이디 중복체크 바랍니다.");
-            return;
-          }
+            if(!useIDCheck) {
+              alert("아이디 중복체크 바랍니다.");
+              return;
+            }
 
-          if(!isConfirmAuth) {
-            alert("메일인증 확인바랍니다.");
-            return;
-          }
+            // 비밀번호 입력 체크
+            if($("#mbsp_password").val() == "") {
+                alert("비밀번호를 입력하세요.");
+                $("#mbsp_password").focus();
+                return;
+            }
 
-          // 폼 전송작업
-          joinForm.submit();
-        });
+            // 비밀번호 확인
+            if($("#mbsp_password").val() != $("#mbsp_password2").val()) {
+                alert("비밀번호 확인이 일치하지 않습니다.");
+                $("#mbsp_password2").focus();
+                return;
+            }
+
+            // 이름 입력 체크
+            if($("#mbsp_name").val() == "") {
+              alert("이름을 입력하세요.");
+              $("#mbsp_name").focus();
+              return;
+            }
+
+            if(!isConfirmAuth) {
+              alert("메일인증 확인바랍니다.");
+              return;
+            }
+
+            if($("#sample2_postcode").val() == "") {
+              alert("우편번호를 입력하세요.");
+              $("sample2_postcode").focus();
+              return;
+            }
+
+            if($("#sample2_address").val() == "") {
+              alert("주소를 입력하세요.");
+              $("sample2_address").focus();
+              return;
+            }
+
+            if($("#sample2_detailAddress").val() == "") {
+              alert("주소를 입력하세요.");
+              $("sample2_detailAddress").focus();
+              return;
+            }
+
+            if($("#mbsp_phone").val() == "") {
+              alert("전화번호를 입력하세요.");
+              $("mbsp_phone").focus();
+              return;
+            }
+
+            // 폼 전송작업
+            joinForm.submit();
+          });
 
 
 

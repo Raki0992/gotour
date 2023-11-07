@@ -132,9 +132,10 @@ desired effect
 							
 							<div class="box-footer clearfix">
 								<div class="row">
-                  <div class="col-md-2">
-								<button type="button" class="btn btn-primary" id="btn_check_modify" role="button">체크상품수정</button>
-										<!-- 1) 페이지번호 클릭할 때 사용 [이전] 1 2 3 4 5 [다음] -->
+                  <div class="col-md-4">
+                    <button type="button" class="btn btn-primary" id="btn_check_modify1" role="button">체크상품수정1</button>
+                    <button type="button" class="btn btn-primary" id="btn_check_modify2" role="button">체크상품수정2</button>
+                    <!-- 1) 페이지번호 클릭할 때 사용 [이전] 1 2 3 4 5 [다음] -->
 										<!-- 2) 목록에서 상품이미지 또는 상품명을 클릭할 때 사용	-->
 										<form id="actionForm" action="" method="get">
 											<input type="hidden" name="pageNum" id="pageNum" value="${pageMaker.cri.pageNum}" />
@@ -144,7 +145,7 @@ desired effect
 											<input type="hidden" name="pro_num" id="pro_num" />
 										</form>
 									</div>
-									<div class="col-md-8 text-center">
+									<div class="col-md-6 text-center">
                     
 										<nav aria-label="...">
 											<ul class="pagination">
@@ -173,7 +174,7 @@ desired effect
 										</nav>
 									</div>
 									<div>
-                    <div class="col-md-2 text-right" ><button type="button" class="btn btn-primary" role="button">상품등록</button></div>
+                    <div class="col-md-2 text-right" ><button type="button" class="btn btn-primary" id="btn_product_insert" role="button">상품등록</button></div>
 								</div>
 								
 							</div>
@@ -314,8 +315,8 @@ desired effect
       });
     });
 
-    // 체크박스수정 버튼 클릭
-    $("#btn_check_modify").on("click", function() {
+    // 체크박스수정 버튼1 클릭
+    $("#btn_check_modify1").on("click", function() {
       // 체크박스 클릭 확인
       if($("input[name='check']:checked").length == 0) {
         alert("수정할 상품을 체크하세요.");
@@ -337,7 +338,37 @@ desired effect
       console.log("상품코드", pro_num_arr);
       console.log("상품가격", pro_price_arr);
       console.log("상품진열", pro_buy_arr);
+    
+
+    $.ajax({
+      url: '/admin/product/pro_checked_modify',
+      type: 'post',
+      data: {pro_num_arr: pro_num_arr, pro_price_arr: pro_price_arr, pro_buy_arr: pro_buy_arr},
+      dataType: 'text',
+      success: function(result) {
+        if(result == "success") {
+          alert("체크상품이 수정되었습니다.")
+        }
+      }
     });
+    });
+
+    $("#btn_product_insert").on("click", function() {
+      location.href ="/admin/product/pro_insert";
+    });
+
+    $("button[name='btn_edit']").on("click", function(){
+      let pro_num = $(this).parent().parent().find("input[name='check']").val();
+
+      console.log(pro_num);
+
+      actionForm.append('<input type="hidden" name="pro_num" id="pro_num" value="' + pro_num + '" />');
+
+      actionForm.attr("method", "get");
+      actionForm.attr("action", "/admin/product/pro_list");
+      actionForm.submit();
+    });
+
   }); // ready안에 입력
 </script>
 </body>
