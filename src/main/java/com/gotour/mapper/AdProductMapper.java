@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.gotour.domain.CategoryVO;
 import com.gotour.domain.ProductVO;
 import com.gotour.dto.Criteria;
 import com.gotour.dto.ProductDTO;
@@ -25,4 +26,6 @@ public interface AdProductMapper {
 	void pro_checked_modify2(List<ProductDTO> pro_modify_list);
 	
 	ProductVO pro_edit(Integer pro_num);
+	
+	CategoryVO get(Integer cg_code);
 }

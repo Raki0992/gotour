@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.gotour.domain.CategoryVO;
 import com.gotour.domain.ProductVO;
 import com.gotour.dto.Criteria;
 import com.gotour.dto.ProductDTO;
@@ -57,6 +58,11 @@ public class AdProductServiceImpl implements AdProductService {
 	@Override
 	public ProductVO pro_edit(Integer pro_num) {
 		return adProductMapper.pro_edit(pro_num);
+	}
+
+	@Override
+	public CategoryVO get(Integer cg_code) {
+		return adProductMapper.get(cg_code); 
 	}
 	
 	

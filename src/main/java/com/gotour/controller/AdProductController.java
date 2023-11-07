@@ -158,7 +158,14 @@ public class AdProductController {
 	@GetMapping("/pro_edit")
 	public void pro_edit(@ModelAttribute("cri") Criteria cri, Integer pro_num, Model model) throws Exception {
 		
+		// 선택한 상품정보
+		ProductVO productVO = adProductService.pro_edit(pro_num);
 		model.addAttribute("ProductVO", adProductService.pro_edit(pro_num));
+		
+		// 1차 전체카테고리
+		
+		// 상품카테고리에서 2차카테고리를 이용한 1차카테고리 정보참조 
+		model.addAttribute("first_category", adProductService.get(productVO.getCg_code()));
 	}
 	
 }

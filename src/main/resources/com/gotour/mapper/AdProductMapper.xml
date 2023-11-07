@@ -95,6 +95,14 @@
 			pro_num = #{pro_num}
 	</select>
 	
+	<select id="get" parameterType="Integer" resultType="com.gotour.domain.CategoryVO">
+		SELECT
+			cg_code, cg_parent_code, cg_name
+		FROM
+			category_tbl
+		WHERE
+			cg_code = #{cg_code}
+	</select>
 	
 	
 	</mapper>
